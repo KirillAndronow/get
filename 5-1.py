@@ -20,16 +20,22 @@ def numDAC(value):
     GPIO.output(dac, signal)
     return signal
 
-
+def adc():
+    for value in range(level):
+        signaL = numDAC(value)
+        time.sleep(0.0007)
+        V = value/level * 3.3
+        compValue = GPIO.input(comp) 
+        if compValue == 0:
+            print("ADC value = {:^3} -> {}, Voltage = {:.2f}".format(value, signaL, V))
+            break
+    return value
 
 try:
     while True:
-        for value in range(level):
-            signaL = numDAC(value)
-            V = value/level * 3.3
-            compValue = GPIO.input(comp)
-            if compValue == 0:
-                print("ADC value = {:^3} -> {}, Voltage = {:.2f}".format(value, signaL, V))
+        ADC = adc()
+        V = ADC/level * 3.3
+        print("ADC value = {:^3}, Voltage = {:.2f}".format(ADC, V))
 
 except KeyboardInterrupt:
     print('\nПрограмма была остановлена с клавиатуры')
